@@ -10,7 +10,7 @@ from time import sleep
 def execute_tool(work_dir,run_dir, stage, tool, design=None):
     # Command Templates
     INVS_CMDS   = "#!/usr/bin/env tclsh\nread_db {}\nwrite_testcase -name {}_testcase\nexit\n"
-    GENUS_CMDS  = "#!/usr/bin/env tclsh\nread_db {}\ncreate_testcase -copy_libraries -directory {}_testcase -design [lindex [split [get_db designs] ':'] 1] -write_db {}\nexit\n"
+    GENUS_CMDS  = "#!/usr/bin/env tclsh\nread_db {}\ncreate_testcase -include_si -copy_libraries -directory {}_testcase -design [lindex [split [get_db designs] ':'] 1] -write_db {}\nexit\n"
     INVS_START  = "{} -cpus 10 -no_gui -stylus -init {}"
     GENUS_START = "{} -no_gui -files {}"
     # File names
