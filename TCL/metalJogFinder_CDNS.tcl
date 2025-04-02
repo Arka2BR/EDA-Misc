@@ -5,9 +5,11 @@ foreach_in_collection  i $ALL_Mx_LAYERS {
       set lyrName [get_db $i .name] ;
       set lyrDir [get_db $i .direction]
       if { ($lyrDir eq "vertical") && () } {
-            set  jogs [get_db nets .wires -if {.layer==$i && .direction!=vertical}] 
+            set  jogs [get_db nets .wires -if {.layer==$i && .direction!=vertical}]
+            puts $jogs
       } else {
-            set  jogs [ get_db nets .wires -if {.layer==$i && .direction!=horizontal}] 
+            set  jogs [ get_db nets .wires -if {.layer==$i && .direction!=horizontal}]
+            puts $jogs
        }
       puts "[get_db $i name], [sizeof_collection $jogs]"
       }
