@@ -1,6 +1,6 @@
 proc get_jog_count { } {
      set ALL_Mx_LAYERS [get_db layers -if {.type==routing && .backside==false}]
-     puts "Layer Name, Total Shapes, No of jogs, Jog Ratio (%)"
+     puts "Layer Name, Direction, Total Shapes, No of jogs, Jog Ratio (%)"
      foreach i $ALL_Mx_LAYERS { 
            set lyrName [get_db $i .name] ;
            set lyrDir [get_db $i .direction] ;
@@ -12,6 +12,6 @@ proc get_jog_count { } {
                  set  jogs [ get_db nets .wires -if {.layer==$i && .direction!=horizontal}] ;
                  set jog_ratio [expr [llength $jogs]/[llength $all_nets]*100];
             }
-           puts "$lyrName, [llength $all_nets], [llength $jogs], $jog_ratio"
+           puts "$lyrName, $lyrDir, [llength $all_nets], [llength $jogs], $jog_ratio"
       }
 }
