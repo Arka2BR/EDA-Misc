@@ -1,5 +1,5 @@
 proc get_jog_count { } {
-     set outfile [open "metal_jog_report.rpt" w+]  
+     set outfile [open "metal_jog_report.csv" w+]  
      set ALL_Mx_LAYERS [get_db layers -if {.type==routing && .backside==false}]
      puts $outfile "Layer Name, Direction, Total Shapes, No of jogs, Jog Ratio (%)"
      foreach i $ALL_Mx_LAYERS { 
