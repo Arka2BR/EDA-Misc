@@ -6,11 +6,11 @@ proc get_jog_count { } {
            set lyrDir [get_db $i .direction]
            if { ($lyrDir == "vertical")} {
                  set  jogs [get_db nets .wires -if {.layer==$i && .direction!=vertical}]
-                 puts $jogs
+                 
            } else {
                  set  jogs [ get_db nets .wires -if {.layer==$i && .direction!=horizontal}]
-                 puts $jogs
+                 #puts $jogs
             }
-           puts "[get_db $i name], [sizeof_collection $jogs]"
+           puts "$lyrName, [llength $jogs]"
       }
 }
