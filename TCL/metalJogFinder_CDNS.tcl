@@ -1,5 +1,4 @@
 proc get_jog_count { } {
-     #set ALL_Mx_LAYERS [get_layers -filter "layer_type == interconnect && mask_name =~ metal*"]
      set ALL_Mx_LAYERS [get_db layers -if {.type==routing && .backside==false}]
      puts "Layer Name, No of jogs"
 foreach_in_collection  i $ALL_Mx_LAYERS { 
