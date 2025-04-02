@@ -1,7 +1,7 @@
 proc get_jog_count { } {
      set ALL_Mx_LAYERS [get_db layers -if {.type==routing && .backside==false}]
      puts "Layer Name, No of jogs"
-     for i $ALL_Mx_LAYERS { 
+     foreach i $ALL_Mx_LAYERS { 
            set lyrName [get_db $i .name] ;
            set lyrDir [get_db $i .direction]
            if { ($lyrDir eq "vertical") && () } {
