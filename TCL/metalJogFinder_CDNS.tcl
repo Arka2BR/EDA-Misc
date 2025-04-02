@@ -9,6 +9,6 @@ foreach_in_collection  i $ALL_Mx_LAYERS {
       } else {
             set  jogs [ get_db nets .wires -if {.layer==$i && .direction!=horizontal}] 
        }
-      puts "[get_db $i name], [sizeof_collection $jogs]"                      }
-
+      puts "[get_db $i name], [sizeof_collection $jogs]"
+      }
 }
