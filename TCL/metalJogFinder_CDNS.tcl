@@ -5,13 +5,14 @@ proc get_jog_count { } {
            set lyrName [get_db $i .name] ;
            set lyrDir [get_db $i .direction] ;
             set all_nets [get_db nets .wires -if {.layer==$i}] ;
+            set net_count [expr double([llength $all_nets])]
            if { ($lyrDir == "vertical")} {
                  set  jogs [get_db nets .wires -if {.layer==$i && .direction!=vertical}] ;
-                 set jog_ratio [expr [llength $jogs]/[llength $all_nets]*100];
            } else {
                  set  jogs [ get_db nets .wires -if {.layer==$i && .direction!=horizontal}] ;
-                 set jog_ratio [expr [llength $jogs]/[llength $all_nets]*100];
             }
-           puts "$lyrName, $lyrDir, [llength $all_nets], [llength $jogs], $jog_ratio"
+           set jog_count [expr double([llength $jogs])]
+           set float jog_ratio [expr {$jog_count*100/$net_count]];
+           puts "$lyrName, $lyrDir, [llength $all_nets], [llength $jogs], [format %.2f $jog_ratio]"
       }
 }
