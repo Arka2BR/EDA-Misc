@@ -1,3 +1,9 @@
+#############################################
+# Developer: Arkaprabho Adhikary
+# Date: 18/06/2025
+# EDA tool : Cadence Innovus
+#############################################
+
 set all_hilit_color [get_layer_preference  hilite -color]
 set all_hilit_stipple [get_layer_preference  hilite -stipple]
 set dop_list [get_db [get_db insts -if {.name=~"*glbdrv*" && .base_cell.base_name=~"GCKDOP*"}] .name]
