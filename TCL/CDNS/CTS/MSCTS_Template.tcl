@@ -9,7 +9,7 @@
 #############################################
 # Deleting original clock tree created by tool
 delete_clock_trees <Main Clock Name>
-delete_clock_trees <Global Driver for Main clock>
+delete_clock_trees <Global_Driver of Main clock>
 #delete_clock_trees mclk_fmav0<2>
 #
 #############################################
@@ -32,9 +32,9 @@ foreach dop [get_db insts *<Global_Driver Instance name>*] {
 	# Edit by Arka
 	# Added ckfree pin consideration
     set dop_outpin_ck [get_object_name [get_pins -of $dop -filter "direction == out && name == <Clock Out Pin 1>"]]
-	set dop_outpin_ckfree [get_object_name [get_pins -of $dop -filter "direction == out && name == <Clock Out Pin 2>"]]
+    set dop_outpin_ckfree [get_object_name [get_pins -of $dop -filter "direction == out && name == <Clock Out Pin 2>"]]
 
-	# ckq clocktree
+    # ckq clocktree
     puts "USER: creating clock_tree definition on user_clock_tree_dop_${dop_name}_ckq"
     create_clock_tree -name user_clock_tree_dop_${dop_name}_ckq -source $dop_outpin_ck
 
@@ -44,11 +44,11 @@ foreach dop [get_db insts *<Global_Driver Instance name>*] {
     set_db [get_db clock_trees user_clock_tree_dop_${dop_name}_ckq] .cts_target_max_transition_time_top [get_db cts_target_max_transition_time_top]
     set_db [get_db clock_trees user_clock_tree_dop_${dop_name}_ckq] .cts_target_max_transition_time_trunk [get_db cts_target_max_transition_time_trunk]
     set_db [get_db clock_trees user_clock_tree_dop_${dop_name}_ckq] .cts_source_latency -index delay_corner:<Delay Corner 1> -90.0 ;# Coming from Clock Spec File
-	set_db [get_db clock_trees user_clock_tree_dop_${dop_name}_ckq] .cts_source_latency -index delay_corner:<Delay Corner 2> -90.0 ;# Coming from Clock Spec File
-	set_db [get_db clock_trees user_clock_tree_dop_${dop_name}_ckq] .cts_source_latency -index delay_corner:<Delay Corner 3>-150.0 ;# Coming from Clock Spec File
+    set_db [get_db clock_trees user_clock_tree_dop_${dop_name}_ckq] .cts_source_latency -index delay_corner:<Delay Corner 2> -90.0 ;# Coming from Clock Spec File
+    set_db [get_db clock_trees user_clock_tree_dop_${dop_name}_ckq] .cts_source_latency -index delay_corner:<Delay Corner 3>-150.0 ;# Coming from Clock Spec File
 
-	# ckfree clock tree
-	puts "USER: creating clock_tree definition on user_clock_tree_dop_${dop_name}_ckfree"
+    # ckfree clock tree
+    puts "USER: creating clock_tree definition on user_clock_tree_dop_${dop_name}_ckfree"
     create_clock_tree -name user_clock_tree_dop_${dop_name}_ckfree -source $dop_outpin_ckfree
 
     set_db [get_db clock_trees user_clock_tree_dop_${dop_name}_ckfree] .cts_target_max_transition_time [get_db cts_target_max_transition_time_leaf]
@@ -57,8 +57,8 @@ foreach dop [get_db insts *<Global_Driver Instance name>*] {
     set_db [get_db clock_trees user_clock_tree_dop_${dop_name}_ckfree] .cts_target_max_transition_time_top [get_db cts_target_max_transition_time_top]
     set_db [get_db clock_trees user_clock_tree_dop_${dop_name}_ckfree] .cts_target_max_transition_time_trunk [get_db cts_target_max_transition_time_trunk]
     set_db [get_db clock_trees user_clock_tree_dop_${dop_name}_ckfree] .cts_source_latency -index delay_corner:<Delay Corner 1> -90 ;# Coming from Clock Spec File
-	set_db [get_db clock_trees user_clock_tree_dop_${dop_name}_ckfree] .cts_source_latency -index delay_corner:<Delay Corner 2> -90 ;# Coming from Clock Spec File
-	set_db [get_db clock_trees user_clock_tree_dop_${dop_name}_ckfree] .cts_source_latency -index delay_corner:<Delay Corner 3> -150.0 ;# Coming from Clock Spec File
+    set_db [get_db clock_trees user_clock_tree_dop_${dop_name}_ckfree] .cts_source_latency -index delay_corner:<Delay Corner 2> -90 ;# Coming from Clock Spec File
+    set_db [get_db clock_trees user_clock_tree_dop_${dop_name}_ckfree] .cts_source_latency -index delay_corner:<Delay Corner 3> -150.0 ;# Coming from Clock Spec File
 	
 }
 
@@ -66,10 +66,11 @@ foreach dop [get_db insts *<Global_Driver Instance name>*] {
 # CLOCK TREE SOURCE GROUP
 #############################################
 # Compiling all the clock trees 
+# Create Individual source groups for each Clock Out pin!!!
 set all_clock_trees_ckq [get_db [get_db clock_trees *user_clock_tree_dop_*ckq] .name]
 set all_clock_trees_ckfree [get_db [get_db clock_trees *user_clock_tree_dop_*ckfree] .name] 
 #
-puts "Creating clock tree source group: user_clocktree_sourcegroup"
+puts "Creating clock tree source groups..."
 create_clock_tree_source_group -name user_clocktree_sourcegroup_ckq -clock_trees $all_clock_trees_ckq
 create_clock_tree_source_group -name user_clocktree_sourcegroup_ckfree -clock_trees $all_clock_trees_ckfree
 
@@ -106,6 +107,7 @@ create_skew_group -balance_skew_groups [get_db skew_groups *user_clock_tree_dop_
 create_skew_group -balance_skew_groups [get_db skew_groups *user_clock_tree_dop_*ckfree] -name balance_user_skew_groups_ckfree
 
 ##### !!!!! You May need to change this depending on your clock quality !!!! #####
+# Create a Balance Skew Group for each Clock Out pin.
 set_db skew_group:balance_user_skew_groups_ckq .cts_target_skew auto
 set_db skew_group:balance_user_skew_groups_ckq .cts_skew_group_target_insertion_delay 0
 set_db skew_group:balance_user_skew_groups_ckfree .cts_target_skew auto
@@ -115,7 +117,7 @@ set_db skew_group:balance_user_skew_groups_ckfree .cts_skew_group_target_inserti
 #############################################
 # ID COnstraints
 #############################################
-
+# The Default is 1.5 => 50% Spread ID
 set_db ccopt_auto_limit_insertion_delay_factor 1.2
 
 #############################################
@@ -145,6 +147,7 @@ set_db [get_db clock_trees .insts.pins]                     .dont_touch false
 set_db [get_db clock_trees .nets.hnets.hinst]               .dont_touch_hports false
 set_db [get_db clock_trees .nets.hnets.hinst.module]        .dont_touch_hports false
 
+# THis depends on which delay corner is primary.
 set_db opt_view_pruning_hold_views_active_list              $view_name_high
 set_db opt_view_pruning_placement_setup_view_list           $view_name_high  
 set_db opt_view_pruning_tdgr_setup_views_persistent_list    $view_name_high
