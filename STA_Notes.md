@@ -83,6 +83,7 @@ ANOTHER ANALOGY WITH FLUIDS :
   So:
   POCV = uncertainty per valve/pipe + generic correlation
   SPOCV = same, plus layout-zone-aware correlation of those uncertainties
+  
 ###############################
 
 2. How is Covariance used in SPOCV ?
@@ -138,6 +139,7 @@ Spatial correlation across the die.
 
 As a result, SPOCV provides a more realistic estimate of the covariance between timing elements, enabling more accurate timing margins and reducing excessive pessimism in timing analysis.
 
+###############################
 
 
 
