@@ -1,3 +1,4 @@
+###############################
 1. What is the difference between POCV and SPOCV ?
 A. Think of delay variation like weather noise affecting runners on a track.
 
@@ -82,4 +83,6 @@ ANOTHER ANALOGY WITH FLUIDS :
   So:
   POCV = uncertainty per valve/pipe + generic correlation
   SPOCV = same, plus layout-zone-aware correlation of those uncertainties
+###############################
+
 
